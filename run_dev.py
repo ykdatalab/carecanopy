@@ -2,6 +2,8 @@ import json
 
 from app.agent import route_case
 
+from app.actions import execute_actions
+
 
 DEV_CASES_PATH = "data/dev_cases.json"
 
@@ -30,7 +32,8 @@ def main():
         print("=" * 70)
 
         decision = route_case(case)
-
+        action_result = execute_actions(case, decision)
+        
         actual_route = decision.route.value
         actual_escalation_type = (
             decision.escalation_type.value
@@ -54,6 +57,15 @@ def main():
                 decision.model_dump(mode="json"),
                 indent=2,
                 ensure_ascii=False,
+            )
+        )
+
+        print("\nWORKFLOW ACTIONS")
+        print(
+            json.dumps(
+            action_result,
+            indent=2,
+            ensure_ascii=False,
             )
         )
 
