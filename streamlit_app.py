@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 import json
 
+import boto3
 import streamlit as st
 
 from app.actions import execute_actions
@@ -48,7 +49,7 @@ st.markdown(
             color: #667085;
             font-size: 1.02rem;
             line-height: 1.55;
-            margin-bottom: 1.6rem;
+            margin-bottom: 1.4rem;
         }
 
         .tagline {
@@ -96,6 +97,34 @@ st.markdown(
         .safety-off {
             background: #EEF2F6;
             color: #475467;
+        }
+
+        .background-task {
+            background: #EEF7F2;
+            border: 1px solid #A6D5BD;
+            border-radius: 16px;
+            padding: 1rem 1.2rem;
+            margin: 0.6rem 0 1.5rem 0;
+        }
+
+        .background-task-title {
+            color: #176B4D;
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+        }
+
+        .background-task-main {
+            color: #101828;
+            font-size: 1.02rem;
+            font-weight: 650;
+            margin-bottom: 0.25rem;
+        }
+
+        .background-task-meta {
+            color: #667085;
+            font-size: 0.88rem;
+            line-height: 1.5;
         }
 
         .hero-urgent {
@@ -156,6 +185,9 @@ st.markdown(
 BASE_DIR = Path(__file__).resolve().parent
 DEV_CASES_PATH = BASE_DIR / "data" / "dev_cases.json"
 
+AWS_REGION = "ap-northeast-2"
+DYNAMO_TABLE = "CareCanopyWorkflowStates"
+
 
 ACTION_LABELS = {
     "COMPLETE_ROUTINE_FOLLOWUP":
@@ -215,7 +247,7 @@ CONTEXT_LABELS = {
 
 
 # =========================================================
-# HELPERS
+# DATA HELPERS
 # =========================================================
 
 @st.cache_data
@@ -226,6 +258,47 @@ def load_dev_cases() -> list[dict]:
         encoding="utf-8",
     ) as file:
         return json.load(file)
+
+
+@st.cache_data(ttl=15)
+def load_proactive_tasks() -> list[dict]:
+    """
+    Read proactive follow-up tasks created by
+    Amazon EventBridge Scheduler.
+    """
+
+    dynamodb = boto3.resource(
+        "dynamodb",
+        region_name=AWS_REGION,
+    )
+
+    table = dynamodb.Table(
+        DYNAMO_TABLE
+    )
+
+    response = table.scan(
+        FilterExpression=(
+            "begins_with(case_id, :prefix)"
+        ),
+        ExpressionAttributeValues={
+            ":prefix": "PROACTIVE_DEMO_"
+        },
+    )
+
+    tasks = response.get(
+        "Items",
+        [],
+    )
+
+    tasks.sort(
+        key=lambda item: item.get(
+            "updated_at",
+            "",
+        ),
+        reverse=True,
+    )
+
+    return tasks
 
 
 def reset_demo_state():
@@ -306,6 +379,79 @@ st.markdown(
 
 
 # =========================================================
+# PROACTIVE BACKGROUND TASK
+# =========================================================
+
+try:
+    proactive_tasks = (
+        load_proactive_tasks()
+    )
+except Exception:
+    proactive_tasks = []
+
+
+if proactive_tasks:
+
+    latest_task = proactive_tasks[0]
+
+    reason = latest_task.get(
+        "reason",
+        "Scheduled follow-up is overdue.",
+    )
+
+    source = latest_task.get(
+        "task_source",
+        "Amazon EventBridge Scheduler",
+    )
+
+    task_count = len(proactive_tasks)
+    task_word = "task" if task_count == 1 else "tasks"
+
+    background_html = (
+        '<div class="background-task">'
+        '<div class="background-task-title">'
+        '⚡ Background task detected'
+        '</div>'
+        '<div class="background-task-main">'
+        f'{task_count} overdue rehabilitation follow-up '
+        f'{task_word} detected'
+        '</div>'
+        '<div class="background-task-meta">'
+        f'Latest task: {reason}'
+        '<br>'
+        f'Created automatically by {source}. '
+        'CareCanopy can now begin the follow-up workflow '
+        'without waiting for a user to initiate the task.'
+        '</div>'
+        '</div>'
+    )
+
+    st.markdown(
+        background_html,
+        unsafe_allow_html=True,
+    )
+
+else:
+
+    background_html = (
+        '<div class="background-task">'
+        '<div class="background-task-title">'
+        'Background monitoring active'
+        '</div>'
+        '<div class="background-task-meta">'
+        'Amazon EventBridge Scheduler is monitoring '
+        'scheduled rehabilitation follow-ups.'
+        '</div>'
+        '</div>'
+    )
+
+    st.markdown(
+        background_html,
+        unsafe_allow_html=True,
+    )
+
+
+# =========================================================
 # SIDEBAR
 # =========================================================
 
@@ -313,11 +459,15 @@ cases = load_dev_cases()
 
 with st.sidebar:
 
-    st.markdown("### Demo Cases")
+    st.markdown(
+        "### Demo Cases"
+    )
 
     case_index = st.selectbox(
         "Synthetic development case",
-        options=range(len(cases)),
+        options=range(
+            len(cases)
+        ),
         format_func=lambda index: (
             f"{cases[index]['id']} — "
             f"{cases[index]['title']}"
@@ -326,7 +476,9 @@ with st.sidebar:
         on_change=reset_demo_state,
     )
 
-    selected_case = cases[case_index]
+    selected_case = (
+        cases[case_index]
+    )
 
     st.caption(
         "Development cases only. "
@@ -337,8 +489,10 @@ with st.sidebar:
 
     st.caption(
         "AWS stack\n\n"
-        "Strands Agents SDK · Amazon Bedrock · "
-        "Amazon DynamoDB"
+        "Strands Agents SDK · "
+        "Amazon Bedrock · "
+        "Amazon DynamoDB · "
+        "Amazon EventBridge Scheduler"
     )
 
 
@@ -379,7 +533,9 @@ with left:
             )
 
             if key == "weeks_post_stroke":
-                value = f"{value} weeks"
+                value = (
+                    f"{value} weeks"
+                )
 
             st.markdown(
                 f"**{label}:** {value}"
@@ -395,17 +551,19 @@ with right:
         unsafe_allow_html=True,
     )
 
-    current_report = st.text_area(
-        "Current follow-up report",
-        value=selected_case[
-            "current_report"
-        ],
-        height=180,
-        label_visibility="collapsed",
-        key=(
-            f"report_"
-            f"{selected_case['id']}"
-        ),
+    current_report = (
+        st.text_area(
+            "Current follow-up report",
+            value=selected_case[
+                "current_report"
+            ],
+            height=180,
+            label_visibility="collapsed",
+            key=(
+                f"report_"
+                f"{selected_case['id']}"
+            ),
+        )
     )
 
 
@@ -496,7 +654,9 @@ if (
         "state"
     ]
 
-    route = decision.route.value
+    route = (
+        decision.route.value
+    )
 
     clarification_round = (
         st.session_state.get(
@@ -553,7 +713,9 @@ if (
     }[route]
 
 
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3 = (
+        st.columns(3)
+    )
 
 
     with c1:
@@ -619,7 +781,7 @@ if (
 
 
     # -----------------------------------------------------
-    # ROUTE-SPECIFIC MESSAGE
+    # ROUTE MESSAGE
     # -----------------------------------------------------
 
     if (
@@ -632,6 +794,7 @@ if (
         st.markdown(
             """
             <div class="hero-urgent">
+
                 <div class="hero-title">
                     Urgent dual-path escalation
                 </div>
@@ -644,6 +807,7 @@ if (
                     or clinical team.
                     Qualified humans retain clinical authority.
                 </div>
+
             </div>
             """,
             unsafe_allow_html=True,
@@ -654,13 +818,11 @@ if (
         )
 
         with urgent_left:
-
             st.error(
                 "🚨 Immediate medical pathway"
             )
 
         with urgent_right:
-
             st.info(
                 "👥 Clinical team notification action"
             )
@@ -1162,7 +1324,7 @@ if (
 
 
     # -----------------------------------------------------
-    # AUDIT
+    # AUDIT TRAIL
     # -----------------------------------------------------
 
     if state[
@@ -1222,5 +1384,6 @@ st.divider()
 st.caption(
     "Built with Strands Agents SDK on AWS · "
     "Amazon Bedrock · Amazon DynamoDB · "
+    "Amazon EventBridge Scheduler · "
     "Qualified humans retain clinical authority."
 )
