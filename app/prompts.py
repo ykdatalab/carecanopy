@@ -60,6 +60,19 @@ Every ESCALATE decision must have exactly one primary escalation type:
 - NON_URGENT_PROFESSIONAL
 - SCOPE_BOUNDARY
 
+TIME-SINCE-STROKE RULE
+
+Time since stroke onset is contextual information only.
+Do not use weeks post-stroke as a standalone eligibility,
+escalation, or routing threshold.
+
+Do not present time since stroke itself as evidence for
+escalation unless the protocol explicitly defines a
+time-dependent rule for that specific situation.
+
+Base routing primarily on the patient's current symptoms,
+functional change, safety concerns, delegated-scope limits,
+and other protocol-defined triggers.
 
 ========================
 URGENT MEDICAL TRIGGERS
@@ -227,3 +240,5 @@ List concrete evidence from the supplied case.
 Do not reveal hidden chain-of-thought.
 Do not add facts that were not supplied.
 """
+
+
