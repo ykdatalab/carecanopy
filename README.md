@@ -13,7 +13,7 @@ CareCanopy does **not** act as an autonomous therapist.
 Instead, it helps decide how much routine follow-up can safely be delegated while preserving qualified human clinical authority.
 
 > **Core design principle:**  
-> **LLM for ambiguity. Deterministic logic for safety.**
+> **LLM for ambiguity. Deterministic controls for selected hard boundaries. Human clinical authority retained.**
 
 Built with **Strands Agents SDK on AWS**.
 
@@ -45,7 +45,7 @@ Each follow-up report is routed into one of three pathways:
 
 The information is sufficient, the task remains within delegated scope, and no escalation trigger is present.
 
-The agent can complete the permitted routine workflow without creating a new clinical decision.
+CareCanopy can complete the permitted routine workflow without creating a new clinical decision.
 
 ### CLARIFY
 
@@ -66,7 +66,7 @@ The case requires qualified human review because of:
 For urgent medical escalation, CareCanopy uses a **dual-path workflow**:
 
 1. issue immediate medical-pathway guidance, and
-2. notify the responsible rehabilitation or clinical team.
+2. record a clinical-team notification action in the workflow.
 
 ---
 
@@ -76,7 +76,7 @@ CareCanopy is built around the idea that an AI agent should not merely answer qu
 
 It should understand **when it has enough authority and information to act — and when it must stop**.
 
-The system therefore separates two kinds of reasoning.
+The system therefore separates two complementary layers.
 
 ### Natural-language reasoning
 
@@ -84,7 +84,7 @@ Amazon Bedrock is used to interpret reports that contain ambiguity, incomplete d
 
 ### Deterministic safety boundaries
 
-High-confidence safety and scope boundaries are enforced in Python after LLM reasoning.
+Selected high-confidence safety and scope boundaries are enforced in Python after LLM reasoning.
 
 The deterministic layer can override the model when a hard boundary is detected.
 
@@ -113,10 +113,26 @@ For example:
 - Amazon EventBridge Scheduler can create an overdue follow-up task without a user first opening the application.
 - The frontline worker provides the required observation.
 - The Strands agent evaluates the report with Amazon Bedrock.
-- The deterministic safety gate checks hard boundaries.
+- The deterministic safety gate checks selected hard boundaries.
 - CareCanopy records the resulting workflow state in Amazon DynamoDB.
 - If information is insufficient, the agent requests a targeted clarification and re-routes the same case.
 - If professional review is required, it creates a structured review packet and records the escalation workflow.
+
+---
+
+## Why the Strands Agent Does Not Directly Execute State-Changing Tools
+
+CareCanopy uses a deliberately **bounded hybrid architecture**.
+
+The Strands Agent and Amazon Bedrock interpret ambiguous frontline observations and produce a structured routing proposal — **ROUTINE, CLARIFY, or ESCALATE**. Before any state-changing workflow action proceeds, deterministic Python logic checks selected protocol-defined safety and authority boundaries.
+
+This separation is intentional in the final MVP. Probabilistic reasoning is useful for interpreting incomplete context, but authority over state-changing actions should not depend on the model's judgement alone.
+
+CareCanopy applies the same principle to the model that it applies to frontline workers: **delegated scope**.
+
+> **The LLM may interpret and propose; deterministic controls and qualified humans retain authority over what may actually proceed.**
+
+The current MVP implements this boundary in Python. A production extension could externalise state-changing authorisation through **Amazon Bedrock AgentCore Gateway + Policy**.
 
 ---
 
@@ -129,7 +145,7 @@ Editable source: [CareCanopy architecture source](docs/carecanopy-architecture.d
 CareCanopy currently uses:
 
 **Strands Agents SDK**  
-Agent orchestration and structured routing workflow.
+Structured reasoning and routing workflow.
 
 **Amazon Bedrock**  
 Natural-language interpretation and structured routing decisions.
@@ -143,7 +159,7 @@ Proactive creation of overdue follow-up tasks.
 **Streamlit**  
 Interactive prototype interface for the community rehabilitation workflow.
 
-CareCanopy combines LLM-based reasoning with deterministic safety boundaries, persistent workflow state, and human clinical oversight.
+CareCanopy combines LLM-based reasoning with deterministic enforcement of selected hard boundaries, persistent workflow state, and human clinical oversight.
 
 Amazon EventBridge Scheduler enables proactive follow-up task creation, while qualified humans retain final clinical authority.
 
@@ -209,6 +225,8 @@ The one-round limit is a prototype engineering and evaluation rule rather than a
 ## Evaluation Design
 
 CareCanopy uses a **protocol-grounded, clinician-labelled synthetic benchmark**.
+
+Frozen benchmark protocol: [`docs/carecanopy-protocol-v1.md`](docs/carecanopy-protocol-v1.md)
 
 The evaluation process was deliberately separated from model development.
 
@@ -334,12 +352,15 @@ carecanopy/
 │
 ├── docs/
 │   ├── carecanopy-architecture.png
-│   └── carecanopy-architecture.drawio
+│   ├── carecanopy-architecture.drawio
+│   ├── aws-setup.md
+│   └── carecanopy-protocol-v1.md
 │
 ├── run_dev.py
 ├── run_boundary_probes.py
 ├── run_frozen_benchmark.py
 ├── streamlit_app.py
+├── requirements.txt
 ├── LICENSE
 └── README.md
 ```
@@ -348,23 +369,37 @@ carecanopy/
 
 ## Running the Prototype
 
+Detailed AWS setup and reproduction notes are available in [`docs/aws-setup.md`](docs/aws-setup.md).
+
 ### 1. Create or activate the Python environment
 
-Python 3.12 was used for the hackathon build.
+CareCanopy was built with **Python 3.12.14**.
 
 ### 2. Install project dependencies
 
-Install the Python packages required by the repository.
+```bash
+python -m pip install -r requirements.txt
+```
 
 ### 3. Configure AWS access
 
-The prototype requires AWS credentials with access to the AWS services used by CareCanopy.
+CareCanopy uses the standard AWS credential provider chain through `boto3`.
 
 The current development region is:
 
 ```text
 ap-northeast-2
 ```
+
+The current MVP requires access to:
+
+- Amazon Bedrock for structured routing reasoning
+- Amazon DynamoDB table `CareCanopyWorkflowStates` for workflow persistence
+- Amazon EventBridge Scheduler for the proactive overdue-task demo path
+
+Do not commit AWS access keys or secret credentials to the repository.
+
+See [`docs/aws-setup.md`](docs/aws-setup.md) for table schema, model ID, required operations, and proactive-task reproduction notes.
 
 ### 4. Run the application
 
@@ -390,7 +425,7 @@ python run_boundary_probes.py
 python run_frozen_benchmark.py
 ```
 
-The benchmark runner verifies that the application code still matches the frozen Git tag before running the evaluation.
+The benchmark runner verifies that files under `app/` still match the frozen Git tag before running the evaluation.
 
 ---
 
@@ -400,7 +435,7 @@ The CareCanopy core MVP was built as a solo three-day development sprint.
 
 During that sprint, the project moved from a frozen delegation and safety protocol to a working AWS agent workflow including:
 
-Strands agent routing, Bedrock reasoning, deterministic safety boundaries, clarification and re-routing, DynamoDB workflow persistence, EventBridge proactive task creation, a Streamlit interface, frozen synthetic benchmarking, and explicit adversarial boundary probes.
+Strands-based structured routing, Bedrock reasoning, selected deterministic safety boundaries, clarification and re-routing, DynamoDB workflow persistence, EventBridge proactive task creation, a Streamlit interface, frozen synthetic benchmarking, and explicit adversarial boundary probes.
 
 The short build period is not presented as a substitute for clinical validation.
 
@@ -450,6 +485,6 @@ but carefully defining **what it should be allowed to do, what it should ask, an
 
 ## License
 
-This project is intended to be released under an open-source licence for the AWS Agents for Humans Hackathon.
+Released under the **MIT License**.
 
-See `LICENSE` for details.
+See [`LICENSE`](LICENSE) for details.
