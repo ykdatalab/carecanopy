@@ -1,0 +1,177 @@
+<mxfile host="app.diagrams.net" agent="ChatGPT">
+  <diagram id="42c2131c525f" name="CareCanopy Final Architecture" compressed="false">
+    <mxGraphModel dx="1871" dy="2206" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="1120" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontColor=#0F766E;fontSize=34;fontStyle=0;align=left;verticalAlign=middle;whiteSpace=wrap;" value="&lt;b&gt;&lt;font style=&quot;font-size: 36px;&quot;&gt;CareCanopy&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="55" width="420" x="72" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontColor=#20242A;fontSize=20;fontStyle=0;align=left;verticalAlign=middle;whiteSpace=wrap;" value="&lt;b&gt;&lt;font style=&quot;font-size: 22px;&quot;&gt;Technical Architecture — Safe Delegation in Community Rehabilitation&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="40" width="980" x="72" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="tagline" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontColor=#667085;fontSize=14;fontStyle=0;align=left;verticalAlign=middle;whiteSpace=wrap;" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;LLM for ambiguity. Deterministic logic for safety. Human clinical authority retained.&lt;/font&gt;" vertex="1">
+          <mxGeometry height="35" width="1100" x="75" y="119" as="geometry" />
+        </mxCell>
+        <mxCell id="g_input" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#D9DEE7;strokeWidth=1.5;fillColor=#FCFCFD;fillOpacity=35;fontColor=#667085;fontSize=15;fontStyle=1;verticalAlign=top;align=left;spacingTop=12;spacingLeft=14;arcSize=12;" value="&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;&amp;nbsp; &amp;nbsp;1. Input &amp;amp; Follow-up&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="470" width="431" x="63" y="168" as="geometry" />
+        </mxCell>
+        <mxCell id="g_decision" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#D9DEE7;strokeWidth=1.5;fillColor=#FCFCFD;fillOpacity=35;fontColor=#667085;fontSize=15;fontStyle=1;verticalAlign=top;align=left;spacingTop=12;spacingLeft=14;arcSize=12;" value="&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;&amp;nbsp; &amp;nbsp; 2. CareCanopy Decision Layer&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="470" width="723" x="500" y="168" as="geometry" />
+        </mxCell>
+        <mxCell id="g_routes" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#D9DEE7;strokeWidth=1.5;fillColor=#FCFCFD;fillOpacity=35;fontColor=#667085;fontSize=15;fontStyle=1;verticalAlign=top;align=left;spacingTop=12;spacingLeft=14;arcSize=12;" value="&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; 3. Routing &amp;amp; Human Oversight&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="710" width="598" x="1238" y="168" as="geometry" />
+        </mxCell>
+        <mxCell id="g_support" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#D9DEE7;strokeWidth=1.5;fillColor=#FCFCFD;fillOpacity=35;fontColor=#667085;fontSize=15;fontStyle=1;verticalAlign=top;align=left;spacingTop=12;spacingLeft=14;arcSize=12;" value="&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;&amp;nbsp; &amp;nbsp;4. AWS Persistence &amp;amp; Automation&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="308" width="1157" x="63" y="685" as="geometry" />
+        </mxCell>
+        <mxCell id="worker" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#475569;strokeWidth=2;fillColor=#FFFFFF;fontColor=#20242A;fontSize=15;verticalAlign=middle;align=center;spacing=8;arcSize=14;" value="&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;Frontline Worker&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Patient context&lt;br&gt;Current follow-up report&lt;/font&gt;" vertex="1">
+          <mxGeometry height="125" width="185" x="73" y="253" as="geometry" />
+        </mxCell>
+        <mxCell id="ui" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#0F766E;strokeWidth=2;fillColor=#FFFFFF;fontColor=#20242A;fontSize=14;verticalAlign=middle;align=center;spacing=8;arcSize=14;" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;&lt;b&gt;CareCanopy UI&lt;/b&gt;&lt;br&gt;Streamlit&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Guided follow-up input&lt;br&gt;Displays proactive tasks&lt;/font&gt;" vertex="1">
+          <mxGeometry height="145" width="197" x="284" y="243" as="geometry" />
+        </mxCell>
+        <mxCell id="clar_update" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#B45309;strokeWidth=2;fillColor=#FFFFFF;fontColor=#20242A;fontSize=14;verticalAlign=middle;align=center;spacing=8;arcSize=14;" value="&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;Clarification update&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Frontline worker provides the requested missing information&lt;/font&gt;" vertex="1">
+          <mxGeometry height="105" width="242" x="212" y="458" as="geometry" />
+        </mxCell>
+        <mxCell id="e_worker_ui" edge="1" parent="1" source="worker" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#59616C;strokeWidth=2.3;endArrow=block;endFill=1;jumpStyle=arc;jumpSize=8" target="ui" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_clarupdate_ui" edge="1" parent="1" source="clar_update" style="edgeStyle=none;rounded=0;orthogonalLoop=0;jettySize=auto;html=1;strokeColor=#B45309;strokeWidth=2.2;endArrow=block;endFill=1;jumpStyle=arc;jumpSize=8;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" target="ui" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="agent" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#0F766E;strokeWidth=2;fillColor=#FFFFFF;fontColor=#20242A;fontSize=14;verticalAlign=middle;align=center;spacing=8;arcSize=14;" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;&lt;b&gt;CareCanopy Agent&lt;/b&gt;&lt;br&gt;&lt;b&gt;Strands Agents SDK&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Orchestrates routing, permitted actions, and workflow state&lt;/font&gt;" vertex="1">
+          <mxGeometry height="155" width="205" x="530" y="238" as="geometry" />
+        </mxCell>
+        <mxCell id="bedrock" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#D97706;strokeWidth=2;fillColor=#FFFFFF;fontColor=#20242A;fontSize=14;verticalAlign=middle;align=center;spacing=8;arcSize=14;" value="&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;Amazon Bedrock&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Interprets case context&lt;br&gt;Produces a structured route proposal with rationale&lt;/font&gt;" vertex="1">
+          <mxGeometry height="125" width="217" x="770" y="253" as="geometry" />
+        </mxCell>
+        <mxCell id="safety" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#475569;strokeWidth=2;fillColor=#FFFFFF;fontColor=#20242A;fontSize=14;verticalAlign=middle;align=center;spacing=8;arcSize=14;" value="&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;Deterministic&amp;nbsp;&lt;/font&gt;&lt;/b&gt;&lt;div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;Safety Gate&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;br&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Enforces&amp;nbsp;protocol-defined urgent triggers and scope boundaries&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="155" width="185" x="1022" y="238" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ui_agent" edge="1" parent="1" source="ui" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#59616C;strokeWidth=2.3;endArrow=block;endFill=1;jumpStyle=arc;jumpSize=8" target="agent" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_agent_bedrock" edge="1" parent="1" source="agent" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#59616C;strokeWidth=2.3;endArrow=block;endFill=1;jumpStyle=arc;jumpSize=8" target="bedrock" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_bedrock_safety" edge="1" parent="1" source="bedrock" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#59616C;strokeWidth=2.3;endArrow=block;endFill=1;jumpStyle=arc;jumpSize=8" target="safety" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="decision_note" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontColor=#667085;fontSize=13;fontStyle=0;align=center;verticalAlign=middle;whiteSpace=wrap;" value="&lt;font style=&quot;&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Safe delegation under uncertainty&lt;/font&gt;&lt;/b&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="70" width="355" x="701" y="393" as="geometry" />
+        </mxCell>
+        <mxCell id="routine" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#15803D;strokeWidth=2;fillColor=#FFFFFF;fontColor=#20242A;fontSize=15;verticalAlign=middle;align=center;spacing=8;arcSize=14;" value="&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;ROUTINE&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Complete the permitted workflow&lt;/font&gt;" vertex="1">
+          <mxGeometry height="88" width="210" x="1269" y="233" as="geometry" />
+        </mxCell>
+        <mxCell id="clarify" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#B45309;strokeWidth=2;fillColor=#FFFFFF;fontColor=#20242A;fontSize=14;verticalAlign=middle;align=center;spacing=8;arcSize=14;" value="&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;CLARIFY&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Request only the missing&lt;/font&gt;&lt;span style=&quot;font-size: 16px; background-color: transparent; color: light-dark(rgb(32, 36, 42), rgb(203, 207, 212));&quot;&gt;&amp;nbsp;information&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;font-size: 16px; background-color: transparent; color: light-dark(rgb(32, 36, 42), rgb(203, 207, 212));&quot;&gt;needed to route the case&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="210" x="1270" y="363" as="geometry" />
+        </mxCell>
+        <mxCell id="escalate" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#B91C1C;strokeWidth=2;fillColor=#FFFFFF;fontColor=#20242A;fontSize=14;verticalAlign=middle;align=center;spacing=8;arcSize=14;" value="&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;ESCALATE&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;Create review packet&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Urgent medical&amp;nbsp; &lt;b&gt;·&lt;/b&gt;&lt;br&gt;Non-urgent professional review&amp;nbsp;&lt;b&gt;·&lt;/b&gt;&lt;br&gt;Scope boundary&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="247" x="1267" y="508" as="geometry" />
+        </mxCell>
+        <mxCell id="human" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#475569;strokeWidth=2;fillColor=#FFFFFF;fontColor=#20242A;fontSize=14;verticalAlign=middle;align=center;spacing=8;arcSize=14;" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;&quot;&gt;Qualified Human Reviewer&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Final clinical authority retained&lt;/font&gt;" vertex="1">
+          <mxGeometry height="106" width="290" x="1540" y="515" as="geometry" />
+        </mxCell>
+        <mxCell id="urgent" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#B91C1C;strokeWidth=2;fillColor=#FFFFFF;fontColor=#20242A;fontSize=13;verticalAlign=middle;align=center;spacing=8;arcSize=14;" value="&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;Urgent path&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Immediate medical / emergency&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;pathway guidance&amp;nbsp;&lt;b&gt;·&lt;/b&gt;&lt;br&gt;Record a clinical-team notification action&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="290" x="1535" y="678" as="geometry" />
+        </mxCell>
+        <mxCell id="e_safety_routine" edge="1" parent="1" source="safety" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#15803D;strokeWidth=2.5;endArrow=block;endFill=1;jumpStyle=arc;jumpSize=8;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="routine" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1215" y="277" />
+              <mxPoint x="1260" y="277" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_safety_clarify" edge="1" parent="1" source="safety" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#B45309;strokeWidth=2.5;endArrow=block;endFill=1;jumpStyle=arc;jumpSize=8;exitX=1;exitY=0.50;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="clarify" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1230.07" y="315.47" />
+              <mxPoint x="1230.07" y="388" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_safety_escalate" edge="1" parent="1" source="safety" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#B91C1C;strokeWidth=2.5;endArrow=block;endFill=1;jumpStyle=arc;jumpSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="escalate" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1112.47" y="423" />
+              <mxPoint x="1200.07" y="423" />
+              <mxPoint x="1200.07" y="568.07" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_clarify_update" edge="1" parent="1" source="clarify" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#B45309;strokeWidth=2.2;endArrow=block;endFill=1;jumpStyle=arc;jumpSize=8;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="clar_update" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1231.13" y="413.07" />
+              <mxPoint x="1231.13" y="433.07" />
+              <mxPoint x="1230.07" y="662" />
+              <mxPoint x="328.07" y="662" />
+            </Array>
+            <mxPoint x="1273" y="413" as="sourcePoint" />
+            <mxPoint x="299" y="563" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="clarify_label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontColor=#667085;fontSize=12;fontStyle=0;align=center;verticalAlign=middle;whiteSpace=wrap;" value="&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;background-color: transparent; color: light-dark(rgb(102, 112, 133), rgb(134, 142, 160));&quot;&gt;One clarification round&lt;/b&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(102, 112, 133), rgb(134, 142, 160));&quot;&gt; →&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;font style=&quot;&quot; size=&quot;3&quot;&gt;&lt;font style=&quot;&quot;&gt;add the minimum missing observation&lt;/font&gt;&lt;font style=&quot;&quot;&gt; →&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(102, 112, 133), rgb(134, 142, 160));&quot;&gt;re-run the same routing pipeline&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="55" width="568" x="618" y="570" as="geometry" />
+        </mxCell>
+        <mxCell id="e_escalate_human" edge="1" parent="1" source="escalate" style="edgeStyle=none;rounded=0;orthogonalLoop=0;jettySize=auto;html=1;strokeColor=#B91C1C;strokeWidth=2.3;endArrow=block;endFill=1;jumpStyle=arc;jumpSize=8;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="human" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="human_label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontColor=#667085;fontSize=12;fontStyle=0;align=center;verticalAlign=middle;whiteSpace=wrap;" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;Professional / clinical review&lt;/font&gt;" vertex="1">
+          <mxGeometry height="28" width="300" x="1514" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="e_escalate_urgent" edge="1" parent="1" source="escalate" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#B91C1C;strokeWidth=2.3;endArrow=block;endFill=1;jumpStyle=arc;jumpSize=8;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="urgent" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="1405" y="582" as="sourcePoint" />
+            <mxPoint x="1541" y="692" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="urgent_label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontColor=#667085;fontSize=12;fontStyle=0;align=center;verticalAlign=middle;whiteSpace=wrap;" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;If urgent&lt;/font&gt;" vertex="1">
+          <mxGeometry height="26" width="80" x="1420" y="706" as="geometry" />
+        </mxCell>
+        <mxCell id="eventbridge" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#D97706;strokeWidth=2;fillColor=#FFFFFF;fontColor=#20242A;fontSize=14;verticalAlign=middle;align=center;spacing=8;arcSize=14;" value="&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;Amazon EventBridge Scheduler&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Creates an overdue follow-up task&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;on schedule&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="106" width="290" x="80" y="782" as="geometry" />
+        </mxCell>
+        <mxCell id="ddb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#D97706;strokeWidth=2;fillColor=#FFFFFF;fontColor=#20242A;fontSize=14;verticalAlign=middle;align=center;spacing=8;arcSize=14;" value="&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;Amazon DynamoDB&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Workflow state · audit trail&lt;br&gt;Review packet · proactive task records&lt;/font&gt;" vertex="1">
+          <mxGeometry height="120" width="325" x="500" y="775" as="geometry" />
+        </mxCell>
+        <mxCell id="e_event_ddb" edge="1" parent="1" source="eventbridge" style="edgeStyle=none;rounded=0;orthogonalLoop=0;jettySize=auto;html=1;strokeColor=#59616C;strokeWidth=2.2;endArrow=block;endFill=1;jumpStyle=arc;jumpSize=8;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="ddb" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="write_task" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontColor=#667085;fontSize=11;fontStyle=0;align=center;verticalAlign=middle;whiteSpace=wrap;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;write task&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="80" x="379" y="807" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ddb_agent" edge="1" parent="1" source="ddb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#59616C;strokeWidth=1.8;endArrow=block;endFill=1;jumpStyle=arc;jumpSize=8;dashed=1;dashPattern=8 6;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=block;startFill=1;" target="agent" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="885" y="835.07" />
+              <mxPoint x="885" y="732" />
+              <mxPoint x="630.07" y="732" />
+              <mxPoint x="630.07" y="403.07" />
+              <mxPoint x="632.47" y="403.07" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="state_label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontColor=#667085;fontSize=11;fontStyle=0;align=center;verticalAlign=middle;whiteSpace=wrap;" value="&lt;b&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Read / write workflow state&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="235" x="640" y="697" as="geometry" />
+        </mxCell>
+        <mxCell id="footer" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontColor=#667085;fontSize=11;fontStyle=0;align=left;verticalAlign=middle;whiteSpace=wrap;" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;Implementation note: EventBridge creates the scheduled task; it does not create a clinical report. In this MVP, clinical-team notification is recorded as an action rather than sent externally.&lt;/font&gt;" vertex="1">
+          <mxGeometry height="35" width="1770" x="80" y="1028" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ddb_ui" edge="1" parent="1" source="ddb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#59616C;strokeWidth=1.8;endArrow=block;endFill=1;jumpStyle=arc;jumpSize=8;dashed=1;dashPattern=8 6;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="ui" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470.07" y="805" />
+              <mxPoint x="470.07" y="442.07" />
+              <mxPoint x="377.53" y="442.07" />
+            </Array>
+            <mxPoint x="521" y="835" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

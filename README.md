@@ -122,6 +122,8 @@ For example:
 
 ## AWS Architecture
 
+![CareCanopy Technical Architecture](docs/carecanopy-architecture.png)
+
 CareCanopy currently uses:
 
 **Strands Agents SDK**  
@@ -139,54 +141,8 @@ Proactive creation of overdue follow-up tasks.
 **Streamlit**  
 Interactive prototype interface for the community rehabilitation workflow.
 
-### Simplified flow
-
-```mermaid
-flowchart LR
-
-    EB[Amazon EventBridge Scheduler<br/>Creates overdue follow-up task]
-
-    UI[CareCanopy UI<br/>Streamlit]
-
-    FW[Frontline Worker<br/>Provides follow-up observations]
-
-    SA[CareCanopy Agent<br/>Strands Agents SDK]
-
-    BR[Amazon Bedrock<br/>LLM reasoning]
-
-    SG[Deterministic Safety Gate<br/>Urgent & scope boundaries]
-
-    R[ROUTINE<br/>Complete permitted workflow]
-
-    C[CLARIFY<br/>Request minimum missing observation]
-
-    E[ESCALATE<br/>Professional or medical review]
-
-    HR[Qualified Human Reviewer<br/>Final clinical authority]
-
-    DB[Amazon DynamoDB<br/>Workflow state · Audit trail · Review packet]
-
-    EB --> DB
-    DB --> UI
-
-    FW --> UI
-    UI --> SA
-    SA --> BR
-    BR --> SG
-
-    SG --> R
-    SG --> C
-    SG --> E
-
-    C --> FW
-    E --> HR
-
-    SA --> DB
-    R --> DB
-    E --> DB
-```    
-
 CareCanopy combines LLM-based reasoning with deterministic safety boundaries, persistent workflow state, and human clinical oversight.
+
 Amazon EventBridge Scheduler enables proactive follow-up task creation, while qualified humans retain final clinical authority.
 
 ---
@@ -374,10 +330,15 @@ carecanopy/
 ├── evaluation/
 │   └── frozen_agent_outputs_v1.json
 │
+├── docs/
+│   ├── carecanopy-architecture.png
+│   └── carecanopy-architecture.drawio
+│
 ├── run_dev.py
 ├── run_boundary_probes.py
 ├── run_frozen_benchmark.py
 ├── streamlit_app.py
+├── LICENSE
 └── README.md
 ```
 
