@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 from pathlib import Path
+from textwrap import dedent
 import json
 
 import boto3
@@ -26,67 +27,234 @@ st.set_page_config(
 # =========================================================
 
 st.markdown(
-    """
+    dedent("""
     <style>
+        :root {
+            --cc-ink: #172321;
+            --cc-muted: #66746F;
+            --cc-line: #DDE5E1;
+            --cc-surface: #FFFFFF;
+            --cc-canvas: #F5F8F6;
+            --cc-sidebar: #EEF3F0;
+            --cc-green: #176B4D;
+            --cc-green-dark: #12543D;
+            --cc-green-soft: #EAF5EF;
+            --cc-amber: #8A5A00;
+            --cc-amber-soft: #FFF4D8;
+            --cc-red: #B42318;
+            --cc-red-soft: #FDECEC;
+            --cc-slate-soft: #EEF2F3;
+        }
+
         .stApp {
-            background: #F7F9F8;
+            background:
+                linear-gradient(180deg, #F9FBFA 0px, #F5F8F6 260px, #F5F8F6 100%);
+            color: var(--cc-ink);
         }
 
         .block-container {
-            max-width: 1180px;
-            padding-top: 2rem;
+            max-width: 1220px;
+            padding-top: 1.25rem;
             padding-bottom: 3rem;
         }
 
-        .care-title {
-            font-size: 2.55rem;
+        /* Reduce default Streamlit chrome without changing app logic. */
+        #MainMenu,
+        footer,
+        [data-testid="stAppDeployButton"] {
+            display: none !important;
+        }
+
+        header[data-testid="stHeader"] {
+            background: transparent;
+            box-shadow: none;
+        }
+
+        section[data-testid="stSidebar"] {
+            background: var(--cc-sidebar);
+            border-right: 1px solid var(--cc-line);
+        }
+
+        section[data-testid="stSidebar"] > div {
+            padding-top: 1.2rem;
+        }
+
+        .product-shell {
+            background: rgba(255, 255, 255, 0.94);
+            border: 1px solid var(--cc-line);
+            border-radius: 20px;
+            padding: 1.35rem 1.55rem 1.2rem 1.55rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 28px rgba(23, 107, 77, 0.06);
+        }
+
+        .product-eyebrow {
+            color: var(--cc-green);
+            font-size: 0.72rem;
             font-weight: 800;
-            letter-spacing: -0.04em;
-            margin-bottom: 0.2rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 0.35rem;
+        }
+
+        .product-title-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .care-title {
+            color: var(--cc-ink);
+            font-size: 2.35rem;
+            font-weight: 820;
+            letter-spacing: -0.045em;
+            line-height: 1.05;
+            margin: 0;
         }
 
         .care-subtitle {
-            color: #667085;
-            font-size: 1.02rem;
+            color: var(--cc-muted);
+            font-size: 0.98rem;
             line-height: 1.55;
-            margin-bottom: 1.4rem;
+            margin-top: 0.3rem;
         }
 
         .tagline {
-            color: #344054;
+            color: #34433E;
+            font-weight: 720;
+        }
+
+        .principle-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-top: 0.95rem;
+        }
+
+        .principle-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: #F7FAF8;
+            color: #40514B;
+            border: 1px solid var(--cc-line);
+            border-radius: 999px;
+            padding: 0.34rem 0.62rem;
+            font-size: 0.78rem;
             font-weight: 650;
         }
 
-        .section-kicker {
-            color: #667085;
+        .workflow-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.55rem;
+            margin-top: 0.85rem;
+        }
+
+        .workflow-step {
+            background: #FAFCFB;
+            border: 1px solid var(--cc-line);
+            border-radius: 11px;
+            padding: 0.58rem 0.7rem;
+            color: #5A6863;
             font-size: 0.76rem;
-            font-weight: 750;
+            line-height: 1.25;
+        }
+
+        .workflow-step b {
+            color: var(--cc-ink);
+            display: block;
+            font-size: 0.79rem;
+            margin-bottom: 0.12rem;
+        }
+
+        .section-kicker {
+            color: #5E6D67;
+            font-size: 0.72rem;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 0.35rem;
+            letter-spacing: 0.09em;
+            margin-bottom: 0.38rem;
+        }
+
+        .sidebar-brand {
+            color: var(--cc-ink);
+            font-size: 1.04rem;
+            font-weight: 800;
+            margin-bottom: 0.15rem;
+        }
+
+        .sidebar-copy {
+            color: var(--cc-muted);
+            font-size: 0.78rem;
+            line-height: 1.45;
+            margin-bottom: 0.7rem;
+        }
+
+        .demo-badge {
+            display: inline-block;
+            color: #596762;
+            background: rgba(255,255,255,0.7);
+            border: 1px solid var(--cc-line);
+            border-radius: 999px;
+            padding: 0.26rem 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin: 0.45rem 0 0.75rem 0;
+        }
+
+        .background-task {
+            background: var(--cc-green-soft);
+            border: 1px solid #B7D9C7;
+            border-radius: 14px;
+            padding: 0.85rem 1rem;
+            margin: 0.55rem 0 1.15rem 0;
+            box-shadow: 0 4px 16px rgba(23, 107, 77, 0.035);
+        }
+
+        .background-task-title {
+            color: var(--cc-green);
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-bottom: 0.22rem;
+        }
+
+        .background-task-main {
+            color: var(--cc-ink);
+            font-size: 0.98rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .background-task-meta {
+            color: #5F6E68;
+            font-size: 0.82rem;
+            line-height: 1.45;
         }
 
         .route-badge {
             display: inline-block;
-            padding: 0.48rem 0.9rem;
+            padding: 0.46rem 0.78rem;
             border-radius: 999px;
-            font-weight: 750;
-            font-size: 0.92rem;
+            font-weight: 800;
+            font-size: 0.84rem;
+            letter-spacing: 0.02em;
         }
 
         .routine {
-            background: #E8F5EE;
+            background: #E4F3EA;
             color: #176B4D;
         }
 
         .clarify {
-            background: #FFF4D8;
-            color: #8A5A00;
+            background: var(--cc-amber-soft);
+            color: var(--cc-amber);
         }
 
         .escalate {
-            background: #FDECEC;
-            color: #B42318;
+            background: var(--cc-red-soft);
+            color: var(--cc-red);
         }
 
         .safety-on {
@@ -95,85 +263,124 @@ st.markdown(
         }
 
         .safety-off {
-            background: #EEF2F6;
-            color: #475467;
+            background: var(--cc-slate-soft);
+            color: #4E5D58;
         }
 
-        .background-task {
-            background: #EEF7F2;
-            border: 1px solid #A6D5BD;
-            border-radius: 16px;
-            padding: 1rem 1.2rem;
-            margin: 0.6rem 0 1.5rem 0;
+        .decision-shell {
+            background: var(--cc-surface);
+            border: 1px solid var(--cc-line);
+            border-radius: 18px;
+            padding: 1rem 1.1rem;
+            margin: 0.35rem 0 0.9rem 0;
+            box-shadow: 0 6px 22px rgba(20, 43, 35, 0.045);
         }
 
-        .background-task-title {
-            color: #176B4D;
-            font-size: 1.05rem;
+        .decision-title {
+            font-size: 1.04rem;
             font-weight: 800;
-            margin-bottom: 0.3rem;
-        }
-
-        .background-task-main {
-            color: #101828;
-            font-size: 1.02rem;
-            font-weight: 650;
+            color: var(--cc-ink);
             margin-bottom: 0.25rem;
         }
 
-        .background-task-meta {
-            color: #667085;
-            font-size: 0.88rem;
-            line-height: 1.5;
+        .decision-copy {
+            color: var(--cc-muted);
+            font-size: 0.82rem;
+            line-height: 1.45;
         }
 
         .hero-urgent {
-            background: #FFF7F5;
-            border: 1px solid #FDA29B;
-            border-radius: 16px;
-            padding: 1.1rem 1.2rem;
-            margin: 1rem 0;
+            background: #FFF8F6;
+            border: 1px solid #F0B7B1;
+            border-left: 4px solid var(--cc-red);
+            border-radius: 14px;
+            padding: 0.95rem 1.05rem;
+            margin: 0.9rem 0;
         }
 
         .hero-title {
-            font-size: 1.05rem;
-            font-weight: 750;
-            color: #B42318;
-            margin-bottom: 0.35rem;
+            font-size: 0.98rem;
+            font-weight: 800;
+            color: var(--cc-red);
+            margin-bottom: 0.3rem;
         }
 
         .hero-text {
-            color: #475467;
+            color: #56645F;
+            line-height: 1.48;
+            font-size: 0.86rem;
+        }
+
+        /* Make default Streamlit controls feel closer to a service workspace. */
+        div[data-baseweb="select"] > div {
+            background: white;
+            border-color: #CFDAD5;
+            border-radius: 11px;
+            min-height: 2.7rem;
+        }
+
+        .stTextArea textarea {
+            background: white !important;
+            border: 1px solid #CFDAD5 !important;
+            border-radius: 13px !important;
+            box-shadow: none !important;
             line-height: 1.5;
+        }
+
+        .stTextArea textarea:focus {
+            border-color: #6EAA8E !important;
+            box-shadow: 0 0 0 2px rgba(23, 107, 77, 0.08) !important;
+        }
+
+        div[data-testid="stVerticalBlockBorderWrapper"] {
+            border-color: var(--cc-line);
+            border-radius: 14px;
+            background: rgba(255,255,255,0.82);
         }
 
         div[data-testid="stMetric"] {
             background: white;
-            border: 1px solid #E4E7EC;
+            border: 1px solid var(--cc-line);
             padding: 0.75rem 0.9rem;
             border-radius: 12px;
+            box-shadow: none;
         }
 
         div[data-testid="stMetricValue"] {
-            font-size: 1.22rem;
+            font-size: 1.16rem;
         }
 
         div.stButton > button {
-            border-radius: 10px;
-            min-height: 3rem;
-            font-weight: 700;
-            background-color: #176B4D;
-            border-color: #176B4D;
+            border-radius: 11px;
+            min-height: 2.9rem;
+            font-weight: 750;
+            background-color: var(--cc-green);
+            border-color: var(--cc-green);
             color: white;
+            box-shadow: 0 4px 14px rgba(23, 107, 77, 0.12);
         }
 
         div.stButton > button:hover {
-            background-color: #12543D;
-            border-color: #12543D;
+            background-color: var(--cc-green-dark);
+            border-color: var(--cc-green-dark);
             color: white;
         }
+
+        hr {
+            border-color: var(--cc-line) !important;
+        }
+
+        @media (max-width: 900px) {
+            .workflow-strip {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .product-title-row {
+                display: block;
+            }
+        }
     </style>
-    """,
+    """),
     unsafe_allow_html=True,
 )
 
@@ -200,7 +407,7 @@ ACTION_LABELS = {
         "Immediate medical pathway",
 
     "NOTIFY_CLINICAL_TEAM":
-        "Notify clinical team",
+        "Record clinical-team notification action",
 
     "CREATE_REVIEW_PACKET":
         "Create human review packet",
@@ -358,23 +565,53 @@ def run_pipeline(
 # HEADER
 # =========================================================
 
-st.markdown(
-    '<div class="care-title">CareCanopy</div>',
-    unsafe_allow_html=True,
-)
+st.html(
+    dedent("""
+    <div class="product-shell">
+        <div class="product-eyebrow">
+            Community rehabilitation workspace
+        </div>
 
-st.markdown(
-    """
-    <div class="care-subtitle">
-        AI Agent for Safe Delegation in Community Rehabilitation
-        <br>
-        <span class="tagline">
-            Handle the routine. Clarify the uncertain.
-            Escalate the clinical.
-        </span>
+        <div class="product-title-row">
+            <div>
+                <div class="care-title">CareCanopy</div>
+                <div class="care-subtitle">
+                    AI Agent for Safe Delegation in Community Rehabilitation
+                    <br>
+                    <span class="tagline">
+                        Handle the routine. Clarify the uncertain.
+                        Escalate the clinical.
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="principle-row">
+            <span class="principle-chip">LLM reasoning for ambiguity</span>
+            <span class="principle-chip">Selected deterministic boundaries</span>
+            <span class="principle-chip">Qualified human clinical authority</span>
+        </div>
+
+        <div class="workflow-strip">
+            <div class="workflow-step">
+                <b>1 · Observe</b>
+                Frontline follow-up report
+            </div>
+            <div class="workflow-step">
+                <b>2 · Reason</b>
+                Context-aware routing proposal
+            </div>
+            <div class="workflow-step">
+                <b>3 · Enforce</b>
+                Selected hard-boundary check
+            </div>
+            <div class="workflow-step">
+                <b>4 · Act / Review</b>
+                Workflow action or human hand-off
+            </div>
+        </div>
     </div>
-    """,
-    unsafe_allow_html=True,
+    """)
 )
 
 
@@ -420,8 +657,8 @@ if proactive_tasks:
         f'Latest task: {reason}'
         '<br>'
         f'Created automatically by {source}. '
-        'CareCanopy can now begin the follow-up workflow '
-        'without waiting for a user to initiate the task.'
+        'The overdue follow-up is surfaced before the worker '
+        'has to create the task manually.'
         '</div>'
         '</div>'
     )
@@ -436,11 +673,11 @@ else:
     background_html = (
         '<div class="background-task">'
         '<div class="background-task-title">'
-        'Background monitoring active'
+        'Proactive follow-up workflow active'
         '</div>'
         '<div class="background-task-meta">'
-        'Amazon EventBridge Scheduler is monitoring '
-        'scheduled rehabilitation follow-ups.'
+        'Amazon EventBridge Scheduler checks scheduled follow-ups '
+        'and can create overdue tasks.'
         '</div>'
         '</div>'
     )
@@ -460,11 +697,13 @@ cases = load_dev_cases()
 with st.sidebar:
 
     st.markdown(
-        "### Demo Cases"
+        '<div class="sidebar-brand">Follow-up Queue</div>'
+        '<div class="sidebar-copy">Select a synthetic follow-up scenario for the demo workspace.</div>',
+        unsafe_allow_html=True,
     )
 
     case_index = st.selectbox(
-        "Synthetic development case",
+        "Select follow-up",
         options=range(
             len(cases)
         ),
@@ -480,19 +719,21 @@ with st.sidebar:
         cases[case_index]
     )
 
+    st.markdown(
+        '<span class="demo-badge">Demo data · Synthetic</span>',
+        unsafe_allow_html=True,
+    )
+
     st.caption(
-        "Development cases only. "
         "The frozen evaluation benchmark remains sealed."
     )
 
     st.divider()
 
     st.caption(
-        "AWS stack\n\n"
-        "Strands Agents SDK · "
-        "Amazon Bedrock · "
-        "Amazon DynamoDB · "
-        "Amazon EventBridge Scheduler"
+        "Technical stack\n\n"
+        "Strands Agents SDK · Amazon Bedrock · "
+        "Amazon DynamoDB · Amazon EventBridge Scheduler"
     )
 
 
@@ -509,7 +750,7 @@ with left:
 
     st.markdown(
         '<div class="section-kicker">'
-        'Patient context'
+        'Patient snapshot'
         '</div>',
         unsafe_allow_html=True,
     )
@@ -546,7 +787,7 @@ with right:
 
     st.markdown(
         '<div class="section-kicker">'
-        'Current follow-up report'
+        'Frontline observation'
         '</div>',
         unsafe_allow_html=True,
     )
@@ -568,7 +809,7 @@ with right:
 
 
 run_button = st.button(
-    "Run CareCanopy",
+    "Analyse & route follow-up",
     type="primary",
     use_container_width=True,
 )
@@ -673,7 +914,7 @@ if (
     st.divider()
 
     st.markdown(
-        "## Routing Result"
+        "## Decision & Workflow"
     )
 
     if clarification_round == 1:
@@ -711,6 +952,31 @@ if (
         "ESCALATE":
             "escalate",
     }[route]
+
+    decision_title = {
+        "ROUTINE": "Routine workflow can proceed",
+        "CLARIFY": "More information is needed",
+        "ESCALATE": "Qualified human review is required",
+    }[route]
+
+    gate_summary = (
+        "A selected hard-boundary override was applied."
+        if decision.safety_gate_triggered
+        else "No selected hard-boundary override was required."
+    )
+
+    st.html(
+        dedent(f"""
+        <div class="decision-shell">
+            <div class="decision-title">{decision_title}</div>
+            <div class="decision-copy">
+                CareCanopy produced a structured routing proposal,
+                then applied the deterministic boundary check.
+                {gate_summary}
+            </div>
+        </div>
+        """)
+    )
 
 
     c1, c2, c3 = (
@@ -791,8 +1057,8 @@ if (
         == "URGENT_MEDICAL"
     ):
 
-        st.markdown(
-            """
+        st.html(
+            dedent("""
             <div class="hero-urgent">
 
                 <div class="hero-title">
@@ -802,15 +1068,13 @@ if (
                 <div class="hero-text">
                     CareCanopy directs the case to the
                     appropriate urgent medical pathway
-                    while also recording an action to
-                    notify the responsible rehabilitation
-                    or clinical team.
+                    while also recording a clinical-team
+                    notification action in workflow state.
                     Qualified humans retain clinical authority.
                 </div>
 
             </div>
-            """,
-            unsafe_allow_html=True,
+            """)
         )
 
         urgent_left, urgent_right = (
@@ -862,7 +1126,7 @@ if (
     # -----------------------------------------------------
 
     st.markdown(
-        "### Why this route?"
+        "### Decision rationale"
     )
 
     st.write(
@@ -912,7 +1176,7 @@ if (
     ):
 
         st.markdown(
-            "### Clarification Needed"
+            "### Clarification required"
         )
 
         with st.container(
@@ -1041,7 +1305,12 @@ if (
     # -----------------------------------------------------
 
     st.markdown(
-        "### Agent Actions"
+        "### Workflow Actions"
+    )
+
+    st.caption(
+        "Permitted workflow actions executed after "
+        "deterministic boundary checks."
     )
 
     actions = (
@@ -1112,12 +1381,17 @@ if (
                     )
                 ):
 
-                    st.caption(
-                        action[
-                            "description"
-                        ]
-                    )
-
+                    if action_name == "NOTIFY_CLINICAL_TEAM":
+                        st.caption(
+                            "Clinical-team notification action recorded "
+                            "in workflow state."
+                        )
+                    else:
+                        st.caption(
+                            action[
+                                "description"
+                            ]
+                        )
 
     # -----------------------------------------------------
     # HUMAN REVIEW PACKET
