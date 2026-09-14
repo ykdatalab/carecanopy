@@ -224,7 +224,7 @@ The one-round limit is a prototype engineering and evaluation rule rather than a
 
 ## Evaluation Design
 
-CareCanopy uses a **protocol-grounded, clinician-labelled synthetic benchmark**.
+CareCanopy uses a **protocol-grounded synthetic benchmark with independent external physical-therapist review**.
 
 Frozen benchmark protocol: [`docs/carecanopy-protocol-v1.md`](docs/carecanopy-protocol-v1.md)
 
@@ -238,11 +238,25 @@ The evaluation process was deliberately separated from model development.
 4. The frozen agent was run on 18 synthetic benchmark cases.
 5. All 18 cases executed successfully without runtime errors.
 6. The frozen outputs were committed and tagged **before external clinician labels were revealed** as `carecanopy-benchmark-v1`.
-7. Independent external physical-therapist labels are then compared with the already-frozen agent outputs.
+7. Independent external physical-therapist labels were then compared with the already-frozen agent outputs.
 
 The benchmark is intended to evaluate **routing behaviour and safety boundaries on synthetic cases**.
 
 It is not a claim of clinical effectiveness or real-world diagnostic performance.
+
+### External clinician comparison
+
+After the agent outputs were frozen, they were compared with labels from **one independent physical therapist**.
+
+For the final coarse routing decision:
+
+- **17/18** cases agreed on ROUTINE vs ESCALATE.
+- CareCanopy captured **10/10** cases the reviewer judged should be escalated.
+- The single coarse disagreement was a reviewer-ROUTINE case that CareCanopy escalated.
+
+This is a **prototype evaluation on synthetic cases**, not prospective clinical validation.
+
+These results do not constitute evidence of clinical effectiveness or proof of real-world safety.
 
 ---
 
@@ -274,7 +288,7 @@ It does **not** imply that the prototype is clinically safe in all situations.
 
 ## Evaluation Metrics
 
-Once independent clinician labels are available, CareCanopy reports raw counts rather than presenting small synthetic samples as inflated percentages.
+CareCanopy reports raw counts rather than presenting small synthetic samples as inflated percentages.
 
 The primary measures are:
 
