@@ -124,6 +124,8 @@ For example:
 
 ![CareCanopy Technical Architecture](docs/carecanopy-architecture.png)
 
+Editable source: [CareCanopy architecture source](docs/carecanopy-architecture.drawio)
+
 CareCanopy currently uses:
 
 **Strands Agents SDK**  
